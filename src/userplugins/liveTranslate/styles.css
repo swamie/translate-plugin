@@ -1,0 +1,20 @@
+.vc-live-translate-accessory {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+}
+
+.vc-live-translate-icon {
+    font-size: 0.85em;
+    line-height: 1;
+    align-self: center;
+}
+
+.vc-live-translate-source {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.8;
+}
