@@ -1,0 +1,9 @@
+.vc-lvt-active {
+    color: var(--status-danger, #f23f43);
+    animation: vc-lvt-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes vc-lvt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+}

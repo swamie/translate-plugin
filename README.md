@@ -1,9 +1,22 @@
-# LiveTranslate — Vencord plugin
+# Vencord live-translation plugins
 
-A [Vencord](https://vencord.dev) userplugin that **automatically translates
-incoming messages** into your language and renders the translation directly
-beneath each message. No clicking, no context menus — messages get translated
-live as they arrive.
+Two [Vencord](https://vencord.dev) userplugins for real-time translation:
+
+| Plugin | What it does |
+| --- | --- |
+| [**LiveTranslate**](src/userplugins/liveTranslate) | Auto-translates incoming **text** messages beneath each message |
+| [**LiveVoiceTranslate**](src/userplugins/liveVoiceTranslate) | Transcribes your **mic** (Deepgram) and posts a live translation of your speech to the channel |
+
+Both live under `src/userplugins/` and can be installed independently — each
+folder is self-contained. Installation steps below apply to either one.
+
+---
+
+## LiveTranslate (text)
+
+A userplugin that **automatically translates incoming messages** into your
+language and renders the translation directly beneath each message. No clicking,
+no context menus — messages get translated live as they arrive.
 
 It uses the free Google Translate endpoint (the same one the built-in Translate
 plugin uses), with auto source-language detection and in-memory caching so the
@@ -24,15 +37,18 @@ same text is never fetched twice.
 Userplugins require a [source install of Vencord](https://docs.vencord.dev/installing/).
 Once you have that set up:
 
-1. Clone or copy the plugin folder into your Vencord `src/userplugins` directory:
+1. Clone or copy the plugin folder(s) into your Vencord `src/userplugins`
+   directory:
 
    ```sh
    # from the root of your Vencord checkout
    mkdir -p src/userplugins
-   cp -r /path/to/this/repo/src/userplugins/liveTranslate src/userplugins/
+   cp -r /path/to/this/repo/src/userplugins/liveTranslate      src/userplugins/
+   cp -r /path/to/this/repo/src/userplugins/liveVoiceTranslate src/userplugins/
    ```
 
-   (If `src/userplugins` doesn't exist yet, creating it is fine.)
+   (Copy only the folder(s) you want — each is independent. If `src/userplugins`
+   doesn't exist yet, creating it is fine.)
 
 2. Rebuild and reinject Vencord:
 
@@ -42,7 +58,7 @@ Once you have that set up:
    ```
 
 3. Restart Discord, open **Settings → Vencord → Plugins**, and enable
-   **LiveTranslate**.
+   **LiveTranslate** and/or **LiveVoiceTranslate**.
 
 ## Settings
 
@@ -69,6 +85,23 @@ renderer CORS restrictions; on the web build it falls back to a direct `fetch`.
   no API key, but Google may rate-limit or change it at any time.
 - Translations are cached only in memory and cleared when the plugin stops or the
   target language changes.
+
+---
+
+## LiveVoiceTranslate (voice)
+
+Transcribes **your microphone** in real time with [Deepgram](https://deepgram.com),
+translates what you said, and posts it as a caption to the current channel — so
+people in a voice call who don't speak your language can read along. You click a
+mic button in the chat bar to start/stop.
+
+It translates *your own* speech only. It can't transcribe other people in the
+call — Discord's voice audio runs through native WebRTC modules a Vencord plugin
+can't cleanly tap per-speaker, so everyone runs it for themselves.
+
+Needs a free **Deepgram API key** (new accounts get $200 of credit, ~430 hours).
+See [`src/userplugins/liveVoiceTranslate/README.md`](src/userplugins/liveVoiceTranslate)
+for full setup, settings, and cost details.
 
 ## License
 
