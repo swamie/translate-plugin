@@ -2,11 +2,11 @@ name: Build Cadence (Windows)
 
 # Builds the Cadence Windows installer + portable .exe and uploads them as a
 # downloadable artifact. Runs on pushes that touch the app, and can be started
-# by hand from the Actions tab (Run workflow). Tagging a release also attaches
-# the .exe files to that GitHub Release.
+# by hand from the Actions tab (Run workflow). Tagging a release attaches the
+# .exe files to that GitHub Release.
 #
-# Uses only GitHub-authored actions (+ the pre-installed gh CLI) so it works
-# under restrictive "allowed actions" policies.
+# The .exe is cross-built on Linux using electron-builder's official Wine image,
+# so it doesn't depend on GitHub-hosted Windows runners being available.
 
 on:
   push:
@@ -24,29 +24,21 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: cadence
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: cadence/package-lock.json
+      - name: Build Windows installer (Wine cross-build)
+        run: |
+          docker run --rm --user root \
+            -v "$PWD":/project \
+            -w /project/cadence \
+            electronuserland/builder:wine \
+            bash -c "node --version && npm install --no-audit --no-fund && npm run dist"
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
-
-      - name: Build Windows app
-        run: npm run dist
-        env:
-          # Don't try to auto-discover a signing certificate.
-          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - name: List build output
+        run: ls -la cadence/dist
 
       - name: Upload installer + portable exe
         uses: actions/upload-artifact@v4
@@ -57,7 +49,6 @@ jobs:
 
       - name: Attach to release
         if: github.event_name == 'release'
-        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.exe --clobber
+        run: gh release upload "${{ github.event.release.tag_name }}" cadence/dist/*.exe --clobber
