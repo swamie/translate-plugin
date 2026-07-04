@@ -1,0 +1,51 @@
+{
+  "name": "cadence",
+  "productName": "Cadence",
+  "version": "1.0.0",
+  "description": "A lightweight YouTube Music desktop player, skinned to look and feel like Spotify.",
+  "license": "MIT",
+  "author": "Cadence",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "make-icon": "node scripts/make-icon.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win",
+    "dist:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.7.6",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.cadence.ytmusic",
+    "productName": "Cadence",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "!**/*.map"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.png",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Cadence"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    }
+  }
+}

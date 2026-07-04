@@ -1,0 +1,384 @@
+/*
+ * Cadence — a Spotify-inspired skin for YouTube Music.
+ *
+ * Strategy:
+ *   1) Override YouTube Music's design tokens (the --yt-spec-* / paper-slider
+ *      custom properties) so most of the app recolours itself for free.
+ *   2) Layer targeted rules on top for the pieces the tokens don't reach:
+ *      the top bar, left rail, cards, and the bottom player bar.
+ *   3) Kill a few expensive effects (ambient blur, ripples) so it feels snappy.
+ *
+ * YouTube Music updates its DOM from time to time, so a rule may occasionally
+ * need a nudge — but the token overrides keep the overall look stable.
+ */
+
+/* ===================================================================== *
+ * 1. Palette + global tokens
+ * ===================================================================== */
+
+:root,
+html,
+ytmusic-app,
+ytmusic-app-layout {
+  /* Spotify palette */
+  --cad-bg: #121212;
+  --cad-bg-elevated: #181818;
+  --cad-bg-elevated-hover: #282828;
+  --cad-sidebar: #000000;
+  --cad-menu: #282828;
+  --cad-text: #ffffff;
+  --cad-text-dim: #b3b3b3;
+  --cad-text-disabled: #6a6a6a;
+  --cad-green: #1ed760;
+  --cad-green-hover: #1fdf64;
+  --cad-green-press: #169c46;
+  --cad-border: rgba(255, 255, 255, 0.08);
+
+  /* --- YouTube Music / YouTube spec token overrides --- */
+  --yt-spec-base-background: var(--cad-bg) !important;
+  --yt-spec-raised-background: var(--cad-bg-elevated) !important;
+  --yt-spec-menu-background: var(--cad-menu) !important;
+  --yt-spec-inverted-background: #ffffff !important;
+  --yt-spec-additive-background: rgba(255, 255, 255, 0.06) !important;
+  --yt-spec-general-background-a: var(--cad-bg) !important;
+  --yt-spec-general-background-b: #0d0d0d !important;
+  --yt-spec-general-background-c: #000000 !important;
+  --yt-spec-brand-background-primary: #000000 !important;
+  --yt-spec-brand-background-secondary: #000000 !important;
+  --yt-spec-brand-background-solid: #000000 !important;
+
+  --yt-spec-text-primary: var(--cad-text) !important;
+  --yt-spec-text-primary-inverse: #000000 !important;
+  --yt-spec-text-secondary: var(--cad-text-dim) !important;
+  --yt-spec-text-disabled: var(--cad-text-disabled) !important;
+  --yt-spec-icon-active-other: var(--cad-text) !important;
+  --yt-spec-icon-inactive: var(--cad-text-dim) !important;
+  --yt-spec-icon-disabled: var(--cad-text-disabled) !important;
+
+  /* Recolour every "brand red" / call-to-action accent to Spotify green. */
+  --yt-spec-call-to-action: var(--cad-green) !important;
+  --yt-spec-call-to-action-inverse: var(--cad-green) !important;
+  --yt-spec-static-brand-red: var(--cad-green) !important;
+  --yt-spec-static-brand-white: #ffffff !important;
+  --yt-spec-red-70: var(--cad-green) !important;
+  --ytmusic-brand-experiment-highlight: var(--cad-green) !important;
+
+  --yt-spec-suggested-action: rgba(255, 255, 255, 0.1) !important;
+  --yt-spec-10-percent-layer: rgba(255, 255, 255, 0.1) !important;
+  --yt-spec-badge-chip-background: rgba(255, 255, 255, 0.1) !important;
+
+  --ytmusic-general-background: var(--cad-bg) !important;
+  --ytmusic-general-background-a: var(--cad-bg) !important;
+
+  color-scheme: dark;
+}
+
+/* Clean, Spotify-ish system font stack (Circular isn't licensed to ship). */
+html,
+body,
+ytmusic-app,
+* {
+  font-family: -apple-system, "Segoe UI", "Helvetica Neue", Roboto, Arial,
+    sans-serif !important;
+}
+
+body,
+ytmusic-app,
+ytmusic-app-layout,
+#layout.ytmusic-app-layout {
+  background-color: var(--cad-bg) !important;
+  color: var(--cad-text) !important;
+}
+
+/* ===================================================================== *
+ * 2. Snappiness — drop the expensive effects
+ * ===================================================================== */
+
+/* Kill Paper ripple animations (the click-splash overlays) app-wide. */
+tp-yt-paper-ripple,
+paper-ripple,
+.ytmusic-ripple {
+  display: none !important;
+}
+
+/* The full-screen player's ambient blurred backdrop is GPU-heavy and very
+ * un-Spotify. Flatten it. */
+#blur,
+.blur,
+ytmusic-player-page[player-page-open] #blur,
+tp-yt-iron-image#blur,
+.image-blur.ytmusic-player-page {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  opacity: 0 !important;
+}
+
+/* Tame long/janky transitions to something Spotify-quick. */
+ytmusic-app * {
+  transition-duration: 120ms !important;
+}
+
+/* ===================================================================== *
+ * 3. Top bar (search + account)
+ * ===================================================================== */
+
+ytmusic-nav-bar {
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: saturate(180%) blur(8px);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--cad-border);
+}
+
+/* Search box → rounded Spotify-style pill. */
+ytmusic-search-box {
+  --ytmusic-search-background: #242424 !important;
+}
+ytmusic-search-box .search-container.ytmusic-search-box,
+ytmusic-search-box tp-yt-paper-input-container {
+  background-color: #242424 !important;
+  border-radius: 500px !important;
+  border: 1px solid transparent !important;
+}
+ytmusic-search-box:hover .search-container.ytmusic-search-box,
+ytmusic-search-box[focused] .search-container.ytmusic-search-box {
+  background-color: #2a2a2a !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ===================================================================== *
+ * 4. Left navigation rail → Spotify sidebar
+ * ===================================================================== */
+
+ytmusic-pivot-bar-renderer {
+  background-color: var(--cad-sidebar) !important;
+  border-right: 1px solid var(--cad-border) !important;
+  padding-top: 8px;
+}
+
+ytmusic-pivot-bar-item-renderer {
+  color: var(--cad-text-dim) !important;
+  border-radius: 8px;
+  margin: 2px 6px;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+ytmusic-pivot-bar-item-renderer:hover {
+  color: var(--cad-text) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+ytmusic-pivot-bar-item-renderer[active],
+ytmusic-pivot-bar-item-renderer.iron-selected {
+  color: var(--cad-text) !important;
+}
+/* Spotify's active-tab green accent. */
+ytmusic-pivot-bar-item-renderer[active] .icon,
+ytmusic-pivot-bar-item-renderer[active] yt-icon {
+  color: var(--cad-green) !important;
+}
+
+/* Guide / mini-guide, when present. */
+#guide-wrapper.ytmusic-app,
+ytmusic-guide-renderer,
+tp-yt-app-drawer#guide {
+  background-color: var(--cad-sidebar) !important;
+}
+ytmusic-guide-entry-renderer[active] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+}
+
+/* ===================================================================== *
+ * 5. Main content, cards + carousels
+ * ===================================================================== */
+
+#background.ytmusic-browse-response,
+ytmusic-browse-response,
+#contents.ytmusic-section-list-renderer,
+ytmusic-tabbed-search-results-renderer {
+  background-color: var(--cad-bg) !important;
+}
+
+/* Grid cards (albums, playlists, artists). */
+ytmusic-two-row-item-renderer {
+  background: transparent !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  transition: background-color 150ms ease !important;
+}
+ytmusic-two-row-item-renderer:hover {
+  background: var(--cad-bg-elevated-hover) !important;
+}
+ytmusic-two-row-item-renderer .title.ytmusic-two-row-item-renderer,
+ytmusic-two-row-item-renderer a {
+  color: var(--cad-text) !important;
+  font-weight: 600 !important;
+}
+ytmusic-two-row-item-renderer .subtitle.ytmusic-two-row-item-renderer {
+  color: var(--cad-text-dim) !important;
+}
+
+/* Rounded album art; circular artist thumbnails (Spotify convention). */
+ytmusic-two-row-item-renderer yt-img-shadow img,
+ytmusic-responsive-list-item-renderer yt-img-shadow img,
+.image.ytmusic-two-row-item-renderer {
+  border-radius: 6px !important;
+}
+ytmusic-two-row-item-renderer[has-corner-radius] yt-img-shadow img,
+ytmusic-two-row-item-renderer.ytmusic-two-row-item-renderer[avatar]
+  yt-img-shadow
+  img {
+  border-radius: 50% !important;
+}
+
+/* List rows (tracklists). */
+ytmusic-responsive-list-item-renderer {
+  border-radius: 6px !important;
+}
+ytmusic-responsive-list-item-renderer:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+ytmusic-responsive-list-item-renderer[selected] {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Green circular play overlay on cards, à la Spotify. */
+ytmusic-play-button-renderer {
+  background-color: var(--cad-green) !important;
+  color: #000 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 120ms ease, background-color 120ms ease !important;
+}
+ytmusic-play-button-renderer:hover {
+  background-color: var(--cad-green-hover) !important;
+  transform: scale(1.06) !important;
+}
+
+/* Chips / pills. */
+ytmusic-chip-cloud-chip-renderer {
+  border-radius: 500px !important;
+}
+ytmusic-chip-cloud-chip-renderer[is-selected] {
+  background-color: #ffffff !important;
+  color: #000 !important;
+}
+
+/* Primary buttons → green Spotify pills. */
+ytmusic-button-renderer[button-renderer]
+  a.yt-simple-endpoint.style-scope.ytmusic-button-renderer,
+.ytmusic-button-renderer.style-primary {
+  border-radius: 500px !important;
+}
+
+/* ===================================================================== *
+ * 6. Bottom player bar
+ * ===================================================================== */
+
+ytmusic-player-bar {
+  background-color: var(--cad-bg-elevated) !important;
+  border-top: 1px solid var(--cad-border) !important;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Track title + byline. */
+ytmusic-player-bar .title.ytmusic-player-bar {
+  color: var(--cad-text) !important;
+  font-weight: 600 !important;
+}
+ytmusic-player-bar .byline.ytmusic-player-bar,
+ytmusic-player-bar .byline a {
+  color: var(--cad-text-dim) !important;
+}
+
+/* Rounded now-playing thumbnail. */
+ytmusic-player-bar .image.ytmusic-player-bar,
+ytmusic-player-bar yt-img-shadow img {
+  border-radius: 6px !important;
+}
+
+/* Progress + volume sliders → green. */
+#progress-bar.ytmusic-player-bar,
+tp-yt-paper-slider.ytmusic-player-bar,
+#volume-slider {
+  --paper-slider-active-color: var(--cad-green) !important;
+  --paper-slider-secondary-color: rgba(255, 255, 255, 0.3) !important;
+  --paper-slider-knob-color: var(--cad-green) !important;
+  --paper-slider-pin-color: var(--cad-green) !important;
+  --paper-slider-container-color: rgba(255, 255, 255, 0.2) !important;
+  --paper-slider-knob-start-color: var(--cad-green) !important;
+  --paper-slider-knob-start-border-color: var(--cad-green) !important;
+}
+
+/* Play/pause/next/prev + right-hand icons. */
+ytmusic-player-bar tp-yt-paper-icon-button,
+ytmusic-player-bar yt-icon {
+  color: var(--cad-text) !important;
+}
+ytmusic-player-bar #play-pause-button {
+  color: var(--cad-text) !important;
+}
+
+/* Like button lit state → green. */
+ytmusic-like-button-renderer[like-status="LIKE"] #button-shape-like yt-icon,
+ytmusic-like-button-renderer[like-status="LIKE"] {
+  color: var(--cad-green) !important;
+  fill: var(--cad-green) !important;
+}
+
+/* ===================================================================== *
+ * 7. Full-screen "now playing" page
+ * ===================================================================== */
+
+ytmusic-player-page {
+  background: linear-gradient(180deg, #2a2a2a 0%, var(--cad-bg) 55%) !important;
+}
+#song-image.ytmusic-player-page yt-img-shadow img,
+ytmusic-player #song-image img {
+  border-radius: 10px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* ===================================================================== *
+ * 8. Menus, dialogs, scrollbars
+ * ===================================================================== */
+
+tp-yt-paper-listbox,
+ytmusic-menu-popup-renderer,
+tp-yt-paper-dialog,
+.ytmusic-menu-popup-renderer {
+  background-color: var(--cad-menu) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+}
+ytmusic-menu-navigation-item-renderer:hover,
+ytmusic-menu-service-item-renderer:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4d4d4d transparent;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #4d4d4d;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7a7a7a;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Text selection highlight in Spotify green. */
+::selection {
+  background: rgba(30, 215, 96, 0.35);
+}
