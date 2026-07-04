@@ -2,8 +2,11 @@ name: Build Cadence (Windows)
 
 # Builds the Cadence Windows installer + portable .exe and uploads them as a
 # downloadable artifact. Runs on pushes that touch the app, and can be started
-# by hand from the Actions tab (Run workflow). Tagging a release (v*) also
-# attaches the .exe files to the GitHub Release.
+# by hand from the Actions tab (Run workflow). Tagging a release also attaches
+# the .exe files to that GitHub Release.
+#
+# Uses only GitHub-authored actions (+ the pre-installed gh CLI) so it works
+# under restrictive "allowed actions" policies.
 
 on:
   push:
@@ -15,6 +18,9 @@ on:
   workflow_dispatch:
   release:
     types: [created]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -39,19 +45,19 @@ jobs:
       - name: Build Windows app
         run: npm run dist
         env:
-          # Avoid electron-builder trying to auto-publish anywhere.
+          # Don't try to auto-discover a signing certificate.
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
 
       - name: Upload installer + portable exe
         uses: actions/upload-artifact@v4
         with:
           name: Cadence-Windows
-          path: |
-            cadence/dist/*.exe
+          path: cadence/dist/*.exe
           if-no-files-found: error
 
       - name: Attach to release
         if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: cadence/dist/*.exe
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.exe --clobber
