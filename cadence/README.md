@@ -15,25 +15,21 @@ and the clutter stripped out.
 
 ---
 
-## Get the `.exe` (no build tools needed)
+## Build the app (on your Windows PC)
 
-The Windows installer is built automatically by GitHub Actions.
+You only need [**Node.js**](https://nodejs.org) installed once — click the big
+green **LTS** button, run the installer, and accept the defaults.
 
-1. Go to the repo's **Actions** tab → **Build Cadence (Windows)**.
-2. Open the most recent successful run (or click **Run workflow** to start one).
-3. Download the **`Cadence-Windows`** artifact at the bottom of the run.
-4. Unzip it — you'll get:
-   - `Cadence-Setup-1.0.0.exe` — a normal installer (Start‑menu + desktop
-     shortcut, choose install location).
-   - `Cadence-Portable-1.0.0.exe` — a single self‑contained file, no install;
-     just double‑click it.
+Then, in this `cadence` folder, **double‑click `build.bat`**. It installs
+everything and builds the app for you. The first run takes a few minutes; after
+that it's quick. When it finishes it opens the **`dist`** folder, which contains:
 
-Windows SmartScreen will likely warn on first run because the build isn't
-code‑signed (signing needs a paid certificate). Click **More info → Run anyway**.
+- `Cadence-Setup-1.0.0.exe` — a normal installer (Start‑menu + desktop
+  shortcut, pick where to install).
+- `Cadence-Portable-1.0.0.exe` — a single self‑contained file, no install —
+  just double‑click to run.
 
-## Build it yourself (optional)
-
-If you have [Node.js](https://nodejs.org) on your PC:
+Prefer the command line? It's the same thing:
 
 ```sh
 cd cadence
@@ -41,11 +37,11 @@ npm install
 npm run dist      # → dist/Cadence-Setup-*.exe and Cadence-Portable-*.exe
 ```
 
-Run it in dev without packaging:
+Run it in dev without packaging with `npm start`.
 
-```sh
-npm start
-```
+Windows SmartScreen may warn on the first launch because the build isn't
+code‑signed (signing needs a paid certificate). Click **More info → Run
+anyway** — it's your own locally‑built app.
 
 ## Features
 

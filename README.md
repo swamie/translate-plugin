@@ -113,5 +113,6 @@ GPL-3.0-or-later, matching Vencord.
 
 [**Cadence**](cadence/) is an unrelated standalone project — a lightweight
 **YouTube Music desktop app skinned to look and feel like Spotify** (Electron).
-It ships as a Windows `.exe`, built automatically by GitHub Actions. See
-[`cadence/README.md`](cadence/README.md) for downloads and details.
+You build the Windows `.exe` on your own PC by double‑clicking `cadence/build.bat`
+(needs [Node.js](https://nodejs.org)). See [`cadence/README.md`](cadence/README.md)
+for the step‑by‑step.
