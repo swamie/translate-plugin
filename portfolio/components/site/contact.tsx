@@ -31,7 +31,7 @@ export function Contact() {
                 <div className="flex items-center gap-1">
                   <a
                     href={`mailto:${site.email}`}
-                    className="font-heading text-lg font-medium tracking-tight underline-offset-4 hover:underline"
+                    className="rounded-sm font-heading text-lg font-medium tracking-tight underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {site.email}
                   </a>

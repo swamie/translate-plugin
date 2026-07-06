@@ -94,6 +94,7 @@ export function Hero() {
                 name={feature.name}
                 url={`${feature.slug.replace(/-/g, "")}.com`}
                 accent={feature.accent}
+                screenshot={feature.screenshot}
                 className="card-halo"
               />
               <Card

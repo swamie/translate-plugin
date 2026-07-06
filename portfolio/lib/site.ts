@@ -39,6 +39,12 @@ export type Project = {
   repo: string
   /** Show in the large featured row. */
   featured: boolean
+  /**
+   * Optional real screenshot, served from /public
+   * (e.g. "/screenshots/elite-line.png"). When set, it replaces the
+   * gradient placeholder in the preview. Leave "" to use the gradient.
+   */
+  screenshot?: string
   /** Decorative gradient for the preview thumbnail (any CSS colors). */
   accent: { from: string; to: string }
 }
@@ -109,6 +115,7 @@ export const site = {
       ],
       url: "", // TODO: live URL
       repo: "",
+      screenshot: "", // TODO: "/screenshots/elite-line.png" once captured
       featured: true,
       accent: { from: "oklch(0.62 0.15 245)", to: "oklch(0.72 0.13 200)" },
     },
@@ -131,6 +138,7 @@ export const site = {
       ],
       url: "", // TODO: live URL
       repo: "",
+      screenshot: "", // TODO: "/screenshots/sisim.png" once captured
       featured: true,
       accent: { from: "oklch(0.6 0.2 305)", to: "oklch(0.68 0.16 350)" },
     },

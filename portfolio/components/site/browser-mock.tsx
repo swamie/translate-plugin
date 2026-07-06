@@ -1,19 +1,23 @@
 import { cn } from "@/lib/utils"
 
 /**
- * A stylised "browser window" preview standing in for a project screenshot.
- * Swap in a real <img> here later — drop screenshots into /public and render
- * them inside the canvas div.
+ * A stylised "browser window" preview.
+ *
+ * - Pass `screenshot` (a path under /public) to show a REAL screenshot of
+ *   the site inside the browser chrome.
+ * - With no screenshot, it falls back to a branded gradient placeholder.
  */
 export function BrowserMock({
   name,
   url,
   accent,
+  screenshot,
   className,
 }: {
   name: string
   url?: string
   accent: { from: string; to: string }
+  screenshot?: string
   className?: string
 }) {
   return (
@@ -35,16 +39,40 @@ export function BrowserMock({
       </div>
       <div
         className="relative aspect-[16/10] w-full"
-        style={{
-          backgroundImage: `linear-gradient(135deg, ${accent.from}, ${accent.to})`,
-        }}
+        style={
+          screenshot
+            ? undefined
+            : {
+                backgroundImage: `linear-gradient(135deg, ${accent.from}, ${accent.to})`,
+              }
+        }
       >
-        <div className="bg-dots absolute inset-0 opacity-25" />
-        <div className="absolute inset-0 flex items-center justify-center p-6">
-          <span className="font-heading text-2xl font-semibold tracking-tight text-white drop-shadow-sm sm:text-3xl">
-            {name}
-          </span>
-        </div>
+        {screenshot ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={screenshot}
+            alt={`Screenshot of the ${name} website`}
+            loading="lazy"
+            className="absolute inset-0 size-full object-cover object-top"
+          />
+        ) : (
+          <>
+            <div className="bg-dots absolute inset-0 opacity-25" />
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(0,0,0,0.28), transparent 78%)",
+              }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <span className="font-heading text-2xl font-semibold tracking-tight text-white [text-shadow:0_1px_14px_rgba(0,0,0,0.35)] sm:text-3xl">
+                {name}
+              </span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

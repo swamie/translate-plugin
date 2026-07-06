@@ -58,7 +58,9 @@ export function FeaturedProject({
           <div className="glow-brand absolute inset-10 -z-0 opacity-20" />
           <BrowserMock
             name={project.name}
+            url={project.url || undefined}
             accent={project.accent}
+            screenshot={project.screenshot}
             className="card-halo relative w-full max-w-md"
           />
         </div>
@@ -122,7 +124,9 @@ export function ProjectCard({ project }: { project: Project }) {
     <Card className="group/proj h-full gap-0 overflow-hidden p-0 ring-foreground/10 transition-all [--card-spacing:0px] hover:ring-brand/30 hover:card-halo">
       <BrowserMock
         name={project.name}
+        url={project.url || undefined}
         accent={project.accent}
+        screenshot={project.screenshot}
         className="rounded-none border-x-0 border-t-0"
       />
       <div className="flex flex-1 flex-col gap-3 p-5">
