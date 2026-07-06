@@ -81,7 +81,7 @@ export function Hero() {
                 <Separator />
                 <span className="inline-flex items-center gap-1.5">
                   <SparklesIcon className="size-4 text-brand" />
-                  {site.stats[1]?.value} projects shipped
+                  Full-stack, front-end to back-end
                 </span>
               </div>
             </Reveal>

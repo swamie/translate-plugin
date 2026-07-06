@@ -8,7 +8,9 @@ import { Reveal } from "./reveal"
 import { Container, Section, SectionHeading } from "./section"
 
 export function Contact() {
-  const elsewhere = site.socials.filter((s) => s.icon !== "mail")
+  const elsewhere = site.socials.filter(
+    (s) => s.icon !== "mail" && s.href && s.href !== "#"
+  )
 
   return (
     <Section id="contact" className="border-t bg-muted/20">
@@ -37,25 +39,29 @@ export function Contact() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  Elsewhere
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  {elsewhere.map((s) => (
-                    <Button asChild key={s.label} variant="outline" size="sm">
-                      <a
-                        href={s.href}
-                        target={s.href.startsWith("http") ? "_blank" : undefined}
-                        rel="noreferrer"
-                      >
-                        <SocialIcon name={s.icon} data-icon="inline-start" />
-                        {s.label}
-                      </a>
-                    </Button>
-                  ))}
+              {elsewhere.length ? (
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Elsewhere
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {elsewhere.map((s) => (
+                      <Button asChild key={s.label} variant="outline" size="sm">
+                        <a
+                          href={s.href}
+                          target={
+                            s.href.startsWith("http") ? "_blank" : undefined
+                          }
+                          rel="noreferrer"
+                        >
+                          <SocialIcon name={s.icon} data-icon="inline-start" />
+                          {s.label}
+                        </a>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
               <Card size="sm" className="bg-card/60">
                 <CardContent className="flex items-center gap-3">

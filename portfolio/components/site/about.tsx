@@ -7,13 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { site } from "@/lib/site"
-import { GitHubIcon } from "./brand-icons"
 import { Reveal } from "./reveal"
 import { Container, Section, SectionHeading } from "./section"
 
 export function About() {
-  const github = site.socials.find((s) => s.icon === "github")
-
   return (
     <Section id="about" className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -35,14 +32,9 @@ export function About() {
               <Button asChild variant="brand">
                 <a href="#contact">Work with me</a>
               </Button>
-              {github ? (
-                <Button asChild variant="outline">
-                  <a href={github.href} target="_blank" rel="noreferrer">
-                    <GitHubIcon data-icon="inline-start" />
-                    GitHub
-                  </a>
-                </Button>
-              ) : null}
+              <Button asChild variant="outline">
+                <a href="#work">View my work</a>
+              </Button>
             </div>
           </div>
 

@@ -16,22 +16,26 @@ export function SiteFooter() {
             <div className="flex max-w-xs flex-col gap-3">
               <Logo />
               <p className="text-sm text-muted-foreground">
-                {site.role} — building fast, modern websites and tools that get
-                results.
+                {site.role} — building fast, modern websites and web apps that
+                get results.
               </p>
               <div className="flex items-center gap-0.5">
-                {site.socials.map((s) => (
-                  <Button asChild key={s.label} variant="ghost" size="icon">
-                    <a
-                      href={s.href}
-                      target={s.href.startsWith("http") ? "_blank" : undefined}
-                      rel="noreferrer"
-                      aria-label={s.label}
-                    >
-                      <SocialIcon name={s.icon} />
-                    </a>
-                  </Button>
-                ))}
+                {site.socials
+                  .filter((s) => s.href && s.href !== "#")
+                  .map((s) => (
+                    <Button asChild key={s.label} variant="ghost" size="icon">
+                      <a
+                        href={s.href}
+                        target={
+                          s.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel="noreferrer"
+                        aria-label={s.label}
+                      >
+                        <SocialIcon name={s.icon} />
+                      </a>
+                    </Button>
+                  ))}
               </div>
             </div>
 

@@ -12,8 +12,8 @@ export function Work() {
       <Container>
         <SectionHeading
           eyebrow="Selected Work"
-          title="Recent projects, start to finish"
-          description="A mix of client websites and open-source tools — each designed, built, and shipped end-to-end."
+          title="Client websites, start to finish"
+          description="Websites I've designed, built, and shipped end-to-end — front-end, back-end, and everything in between."
         />
 
         <div className="mt-12 flex flex-col gap-8">

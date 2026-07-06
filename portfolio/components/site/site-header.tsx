@@ -30,7 +30,9 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  const github = site.socials.find((s) => s.icon === "github")
+  const primarySocial = site.socials.find(
+    (s) => s.icon !== "mail" && s.href && s.href !== "#"
+  )
 
   return (
     <header
@@ -59,7 +61,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-0.5">
-          {github ? (
+          {primarySocial ? (
             <Button
               asChild
               variant="ghost"
@@ -67,12 +69,12 @@ export function SiteHeader() {
               className="hidden sm:inline-flex"
             >
               <a
-                href={github.href}
+                href={primarySocial.href}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="GitHub"
+                aria-label={primarySocial.label}
               >
-                <SocialIcon name="github" />
+                <SocialIcon name={primarySocial.icon} />
               </a>
             </Button>
           ) : null}
@@ -122,23 +124,22 @@ export function SiteHeader() {
                   </Button>
                 </SheetClose>
                 <div className="flex items-center gap-1">
-                  {site.socials.map((s) => (
-                    <Button
-                      asChild
-                      key={s.label}
-                      variant="ghost"
-                      size="icon"
-                    >
-                      <a
-                        href={s.href}
-                        target={s.href.startsWith("http") ? "_blank" : undefined}
-                        rel="noreferrer"
-                        aria-label={s.label}
-                      >
-                        <SocialIcon name={s.icon} />
-                      </a>
-                    </Button>
-                  ))}
+                  {site.socials
+                    .filter((s) => s.href && s.href !== "#")
+                    .map((s) => (
+                      <Button asChild key={s.label} variant="ghost" size="icon">
+                        <a
+                          href={s.href}
+                          target={
+                            s.href.startsWith("http") ? "_blank" : undefined
+                          }
+                          rel="noreferrer"
+                          aria-label={s.label}
+                        >
+                          <SocialIcon name={s.icon} />
+                        </a>
+                      </Button>
+                    ))}
                 </div>
               </SheetFooter>
             </SheetContent>

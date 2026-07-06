@@ -64,11 +64,11 @@ export const site = {
   email: "voidkay01@gmail.com", // TODO: confirm the address you want public
   // A one-liner for the hero. Keep it confident and specific.
   tagline:
-    "I design and build fast, modern websites — from conversion-driven business sites to content platforms and custom tools.",
+    "I design and build fast, modern websites — front-end, back-end, and everything in between.",
   // Short about paragraphs.
   about: [
     "I'm a web developer and designer who turns ideas into polished, production-ready websites. I care about the details that make a site feel effortless: clean typography, smooth motion, sensible information architecture, and performance that holds up on real devices.",
-    "I work across the whole stack — designing the interface, building the front-end in React and Next.js, wiring up the back-end and CMS, and shipping it live. Recent work spans a service business site, a personal publishing platform, and open-source developer tooling.",
+    "I work across the whole stack — designing the interface, building the front-end in React and Next.js, and engineering the back-end: authentication, databases, APIs, and content management. My recent work spans a conversion-focused business site and a full-stack publishing platform I built end-to-end.",
   ],
 
   /** ── Navigation ───────────────────────────────────────── */
@@ -80,14 +80,15 @@ export const site = {
   ] satisfies NavItem[],
 
   /** ── Socials (TODO: fill in your real profiles) ───────── */
+  // Links left as "#" are hidden until you add a real URL, so the site
+  // never shows a dead link. Fill these in to make them appear.
   socials: [
-    { label: "GitHub", href: "https://github.com/swamie", icon: "github" },
-    { label: "LinkedIn", href: "#", icon: "linkedin" }, // TODO
-    { label: "X / Twitter", href: "#", icon: "twitter" }, // TODO
+    { label: "LinkedIn", href: "#", icon: "linkedin" }, // TODO: your LinkedIn URL
+    { label: "X / Twitter", href: "#", icon: "twitter" }, // TODO: your X/Twitter URL
     { label: "Email", href: "mailto:voidkay01@gmail.com", icon: "mail" },
   ] satisfies Social[],
 
-  /** ── Selected work ────────────────────────────────────── */
+  /** ── Selected work (only my own websites) ─────────────── */
   projects: [
     {
       slug: "elite-line-plumbing",
@@ -114,68 +115,24 @@ export const site = {
     {
       slug: "sisim",
       name: "Sisim",
-      category: "Personal Blog",
+      category: "Full-Stack Blog Platform",
       year: "2025",
-      role: "Design & Build",
+      role: "Full-Stack Build",
       summary:
-        "A minimal personal blog and writing space — a calm, content-first reading experience.",
+        "A personal blog and publishing platform — designed on the front, fully engineered on the back.",
       description:
-        "A self-publishing platform built around the writing itself: distraction-free layouts, considered typography, and quick navigation between posts. Light and dark themes, fast static pages, and a structure that makes adding new content effortless.",
-      tags: ["Blog", "CMS / MDX", "Typography", "Responsive"], // TODO: adjust to the real stack
+        "A full-stack blog I built end-to-end. On the surface it's a calm, content-first reading experience with refined typography; underneath it's a custom back-end that handles authentication, a database-driven content model, and an API that powers posts and a writing/admin dashboard. Built to be fast, secure, and effortless to publish to.",
+      tags: ["Next.js", "Node.js", "PostgreSQL", "Auth", "REST API", "TypeScript"], // TODO: match your real stack
       highlights: [
-        "Content-first, distraction-free reading",
-        "Refined editorial typography",
-        "Fast static pages, dark & light themes",
-        "Effortless to publish new posts",
+        "Custom back-end: auth, database & content API",
+        "Admin dashboard for writing & managing posts",
+        "Server-rendered, fast, SEO-friendly pages",
+        "Secure sessions and clean data modelling",
       ],
       url: "", // TODO: live URL
       repo: "",
       featured: true,
       accent: { from: "oklch(0.6 0.2 305)", to: "oklch(0.68 0.16 350)" },
-    },
-    {
-      slug: "livetranslate",
-      name: "LiveTranslate",
-      category: "Open-Source Plugin",
-      year: "2025",
-      role: "Author",
-      summary:
-        "A Vencord plugin that auto-translates incoming Discord messages in real time, inline under each message.",
-      description:
-        "A TypeScript/React userplugin for Vencord. It renders a message accessory that auto-detects the source language and translates every incoming message into your language as it arrives — with in-memory caching and translation requests routed through Electron's main process to sidestep CORS.",
-      tags: ["TypeScript", "React", "Vencord", "i18n"],
-      highlights: [
-        "Auto-translates every message in real time",
-        "Automatic source-language detection (100+ languages)",
-        "In-memory caching to avoid redundant requests",
-        "Main-process fetch to bypass renderer CORS",
-      ],
-      url: "",
-      repo: "https://github.com/swamie/translate-plugin",
-      featured: false,
-      accent: { from: "oklch(0.7 0.15 160)", to: "oklch(0.72 0.13 195)" },
-    },
-    {
-      slug: "livevoicetranslate",
-      name: "LiveVoiceTranslate",
-      category: "Open-Source Plugin",
-      year: "2025",
-      role: "Author",
-      summary:
-        "Real-time mic transcription (Deepgram) that posts a live translation of your speech into a Discord voice channel.",
-      description:
-        "A Vencord plugin that streams your microphone to Deepgram for live transcription, translates what you said, and posts it as a caption to the channel — so people in a voice call who don't share your language can read along. Handles native Electron audio plumbing and a start/stop control in the chat bar.",
-      tags: ["TypeScript", "Deepgram", "WebRTC", "Electron"],
-      highlights: [
-        "Live microphone transcription via Deepgram",
-        "Translates and captions speech in real time",
-        "Native Electron audio integration",
-        "One-tap start/stop from the chat bar",
-      ],
-      url: "",
-      repo: "https://github.com/swamie/translate-plugin",
-      featured: false,
-      accent: { from: "oklch(0.75 0.16 75)", to: "oklch(0.68 0.18 40)" },
     },
   ] satisfies Project[],
 
@@ -272,7 +229,7 @@ export const site = {
     {
       step: "03",
       title: "Build",
-      body: "Clean, typed, component-driven code. Fast, SEO-friendly, and easy to extend as you grow.",
+      body: "Clean, typed, component-driven code — front-end and back-end. Fast, SEO-friendly, and easy to extend as you grow.",
     },
     {
       step: "04",
@@ -284,7 +241,7 @@ export const site = {
   /** ── Stats (TODO: replace with your real numbers) ─────── */
   stats: [
     { value: "3+", label: "Years building for the web" },
-    { value: "15+", label: "Projects shipped" },
+    { value: "Full-stack", label: "Front-end to back-end" },
     { value: "95+", label: "Typical Lighthouse score" },
     { value: "<24h", label: "Response time" },
   ] satisfies Stat[],
