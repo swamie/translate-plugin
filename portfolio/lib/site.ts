@@ -113,9 +113,9 @@ export const site = {
         "Local SEO structure and fast load times",
         "Accessible, trust-building brand design",
       ],
-      url: "", // TODO: live URL
+      url: "https://elitelineplumbing.com.au",
       repo: "",
-      screenshot: "", // TODO: "/screenshots/elite-line.png" once captured
+      screenshot: "", // add /screenshots/elite-line.jpg, then set this to "/screenshots/elite-line.jpg"
       featured: true,
       accent: { from: "oklch(0.62 0.15 245)", to: "oklch(0.72 0.13 200)" },
     },
@@ -136,9 +136,9 @@ export const site = {
         "Server-rendered, fast, SEO-friendly pages",
         "Secure sessions and clean data modelling",
       ],
-      url: "", // TODO: live URL
+      url: "https://sisim.vercel.app",
       repo: "",
-      screenshot: "", // TODO: "/screenshots/sisim.png" once captured
+      screenshot: "", // add /screenshots/sisim.jpg, then set this to "/screenshots/sisim.jpg"
       featured: true,
       accent: { from: "oklch(0.6 0.2 305)", to: "oklch(0.68 0.16 350)" },
     },

@@ -92,7 +92,7 @@ export function Hero() {
               <div className="glow-brand absolute -inset-8 -z-10 opacity-40" />
               <BrowserMock
                 name={feature.name}
-                url={`${feature.slug.replace(/-/g, "")}.com`}
+                url={feature.url || undefined}
                 accent={feature.accent}
                 screenshot={feature.screenshot}
                 className="card-halo"

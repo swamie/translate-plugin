@@ -20,6 +20,10 @@ export function BrowserMock({
   screenshot?: string
   className?: string
 }) {
+  const displayUrl =
+    (url ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "") ||
+    `${name.toLowerCase().replace(/\s+/g, "")}.com`
+
   return (
     <div
       className={cn(
@@ -34,7 +38,7 @@ export function BrowserMock({
           <span className="size-2.5 rounded-full bg-foreground/15" />
         </div>
         <div className="ml-2 flex h-5 flex-1 items-center truncate rounded-md bg-background/70 px-2 text-[11px] text-muted-foreground">
-          {url || `${name.toLowerCase().replace(/\s+/g, "")}.com`}
+          {displayUrl}
         </div>
       </div>
       <div
