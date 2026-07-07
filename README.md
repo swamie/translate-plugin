@@ -106,3 +106,13 @@ for full setup, settings, and cost details.
 ## License
 
 GPL-3.0-or-later, matching Vencord.
+
+---
+
+## Also in this repo: Cadence 🎧
+
+[**Cadence**](cadence/) is an unrelated standalone project — a lightweight
+**YouTube Music desktop app skinned to look and feel like Spotify** (Electron).
+You build the Windows `.exe` on your own PC by double‑clicking `cadence/build.bat`
+(needs [Node.js](https://nodejs.org)). See [`cadence/README.md`](cadence/README.md)
+for the step‑by‑step.
