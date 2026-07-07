@@ -209,7 +209,8 @@
   html {
     scroll-behavior: auto;
   }
-  .animate-marquee {
+  .animate-marquee,
+  .animate-ping {
     animation: none;
   }
 }

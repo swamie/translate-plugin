@@ -39,13 +39,13 @@ export function SiteFooter() {
               </div>
             </div>
 
-            <nav className="flex flex-col gap-2.5 text-sm">
+            <nav aria-label="Footer" className="flex flex-col gap-2.5 text-sm">
               <span className="font-medium text-foreground">Explore</span>
               {site.nav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
+                  className="w-fit rounded-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {item.label}
                 </a>

@@ -17,6 +17,9 @@ import { site } from "@/lib/site"
 
 export function ContactForm() {
   const [pending, setPending] = React.useState(false)
+  const [invalid, setInvalid] = React.useState<
+    "name" | "email" | "message" | null
+  >(null)
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -26,10 +29,21 @@ export function ContactForm() {
     const email = String(data.get("email") ?? "").trim()
     const message = String(data.get("message") ?? "").trim()
 
-    if (!name || !email || !message) {
+    const firstEmpty = !name
+      ? "name"
+      : !email
+        ? "email"
+        : !message
+          ? "message"
+          : null
+    if (firstEmpty) {
+      setInvalid(firstEmpty)
       toast.error("Please fill in every field before sending.")
+      const el = form.elements.namedItem(firstEmpty)
+      if (el instanceof HTMLElement) el.focus()
       return
     }
+    setInvalid(null)
 
     setPending(true)
     const subject = encodeURIComponent(`New project enquiry from ${name}`)
@@ -46,19 +60,20 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form onSubmit={onSubmit} onChange={() => setInvalid(null)} noValidate>
       <FieldGroup>
-        <Field>
+        <Field data-invalid={invalid === "name" || undefined}>
           <FieldLabel htmlFor="name">Name</FieldLabel>
           <Input
             id="name"
             name="name"
             placeholder="Jane Doe"
             autoComplete="name"
+            aria-invalid={invalid === "name" || undefined}
             required
           />
         </Field>
-        <Field>
+        <Field data-invalid={invalid === "email" || undefined}>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
             id="email"
@@ -66,16 +81,18 @@ export function ContactForm() {
             type="email"
             placeholder="jane@company.com"
             autoComplete="email"
+            aria-invalid={invalid === "email" || undefined}
             required
           />
         </Field>
-        <Field>
+        <Field data-invalid={invalid === "message" || undefined}>
           <FieldLabel htmlFor="message">Project details</FieldLabel>
           <Textarea
             id="message"
             name="message"
             rows={5}
             placeholder="Tell me about your project — goals, timeline, and rough budget…"
+            aria-invalid={invalid === "message" || undefined}
             required
           />
           <FieldDescription>

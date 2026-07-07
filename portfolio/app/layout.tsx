@@ -57,6 +57,10 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
     >
       <body>
+        <noscript>
+          {/* If JS never runs, scroll-reveal content must still be visible. */}
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
         <ThemeProvider>
           {children}
           <Toaster />

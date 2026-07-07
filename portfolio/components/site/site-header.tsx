@@ -52,7 +52,7 @@ export function SiteHeader() {
           <Logo />
         </a>
 
-        <nav className="hidden items-center gap-0.5 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
           {site.nav.map((item) => (
             <Button key={item.href} asChild variant="ghost" size="sm">
               <a href={item.href}>{item.label}</a>
@@ -104,12 +104,12 @@ export function SiteHeader() {
                   </span>
                 </SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-0.5 px-4">
+              <nav aria-label="Mobile" className="flex flex-col gap-0.5 px-4">
                 {site.nav.map((item) => (
                   <SheetClose asChild key={item.href}>
                     <a
                       href={item.href}
-                      className="rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors hover:bg-muted"
+                      className="rounded-lg px-3 py-2.5 text-base font-medium text-foreground transition-colors outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {item.label}
                     </a>
